@@ -22,6 +22,10 @@ int main(int argc, char* argv[]) {
     int i=5;
     int x=0;
     char text[20];
+    Camera2D cam = { 0 };
+    cam.zoom = 1;
+    cam.offset.x = GetScreenWidth() / 2.0f;
+    cam.offset.y = GetScreenHeight() / 2.0f;
     //int poscx; //position case en x
     //sprintf(text, "%d", number); pour convertir d'un entier a une chaine de caractere
     int sizec,sizetext,poscx,poscy;
@@ -41,7 +45,27 @@ for(int j=0 ; j<10 ; j++){
 
     // Main game loop
     while (!WindowShouldClose()) {
+      // Zoom et rotation et deplacement 
+       float mouseDelta = GetMouseWheelMove();
 
+        float newZoom = cam.zoom + mouseDelta * 0.01f;
+        if (newZoom <= 0)
+            newZoom = 0.01f;
+
+        cam.zoom = newZoom;
+
+        Vector2 thisPos = GetMousePosition();
+
+        Vector2 delta = Vector2Subtract(prevMousePos, thisPos);
+        prevMousePos = thisPos;
+
+        if (IsMouseButtonDown(0))
+            cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
+
+        if (IsKeyPressed(KEY_LEFT)) 
+            cam.rotation += 10;
+        else if (IsKeyPressed(KEY_RIGHT))
+            cam.rotation -= 10;
 
         // Draw
         BeginDrawing();
