@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
     int i=5;
     int x=0;
     char text[20];
+    InitWindow(screenWidth, screenHeight, "Hello, Raylib!");
     Camera2D cam = { 0 };
     cam.zoom = 1;
     cam.offset.x = GetScreenWidth() / 2.0f;
@@ -29,7 +30,6 @@ int main(int argc, char* argv[]) {
     //int poscx; //position case en x
     //sprintf(text, "%d", number); pour convertir d'un entier a une chaine de caractere
     int sizec,sizetext,poscx,poscy;
-    InitWindow(screenWidth, screenHeight, "Hello, Raylib!");
     int T[10];
     //on fait un tableau 
 for(int j=0 ; j<10 ; j++){
@@ -61,15 +61,14 @@ for(int j=0 ; j<10 ; j++){
 
         if (IsMouseButtonDown(0))
             cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
-
         if (IsKeyPressed(KEY_LEFT)) 
             cam.rotation += 10;
         else if (IsKeyPressed(KEY_RIGHT))
             cam.rotation -= 10;
-
         // Draw
         BeginDrawing();
         ClearBackground(BLACK);
+        BeginMode2D(cam) ;
         DrawRectangle(x-50,0,50,50,GRAY);
         DrawRectangle(screenWidth-x-50,0,50,50,GREEN);
    // AfficherCaseTab(T,poscx,poscy,sizec,sizec,screenWidth,screenHeight,text); FONCTION FAIL 
