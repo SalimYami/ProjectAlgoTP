@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     int x=0;
     char text[20];
     InitWindow(screenWidth, screenHeight, "Hello, Raylib!");
-    Camera2D cam = { 0 };
+    Camera2D cam = { 0 }; // initialiser les coordonnees de la camera 
     cam.zoom = 1;
     cam.offset.x = GetScreenWidth() / 2.0f;
     cam.offset.y = GetScreenHeight() / 2.0f;
@@ -47,25 +47,26 @@ for(int j=0 ; j<10 ; j++){
 
     // Main game loop
     while (!WindowShouldClose()) {
-      // Zoom et rotation et deplacement 
-       float mouseDelta = GetMouseWheelMove();
+      // Zoom 
+       float mouseDelta = GetMouseWheelMove(); //  recupere la quantite de mouvement de la molette
 
         float newZoom = cam.zoom + mouseDelta * 0.01f;
         if (newZoom <= 0)
             newZoom = 0.01f;
 
         cam.zoom = newZoom;
+        // deplacement
+        Vector2 thisPos = GetMousePosition(); //  recupere la position actuelle de la souris
 
-        Vector2 thisPos = GetMousePosition();
-
-        Vector2 delta = Vector2Subtract(prevMousePos, thisPos);
+        Vector2 delta = Vector2Subtract(prevMousePos, thisPos); // calcule de la difference entre la position initial et position actuelle 
         prevMousePos = thisPos;
 
         if (IsMouseButtonDown(0))
-            cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
-        if (IsKeyPressed(KEY_LEFT)) 
+            cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam); //  convertire les coordonnees de l'écran (en pixels) en coordonnees du monde
+       // rotation
+        if (IsKeyPressed(KEY_LEFT)) // rotation a gauche
             cam.rotation += 10;
-        else if (IsKeyPressed(KEY_RIGHT))
+        else if (IsKeyPressed(KEY_RIGHT)) // rotation a droit 
             cam.rotation -= 10;
         // Draw
         BeginDrawing();
