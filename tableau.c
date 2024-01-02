@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "raymath.h"
 #include <stdio.h>
 
 /*void AfficherCaseTab(int *T,int sizec,int sizetext,int poscx,int poscy,int screenWidth,int screenHeight,char *text){
