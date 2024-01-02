@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
     cam.zoom = 1;
     cam.offset.x = GetScreenWidth() / 2.0f;
     cam.offset.y = GetScreenHeight() / 2.0f;
+    Vector2 prevMousePos = GetMousePosition();
     //int poscx; //position case en x
     //sprintf(text, "%d", number); pour convertir d'un entier a une chaine de caractere
     int sizec,sizetext,poscx,poscy;
