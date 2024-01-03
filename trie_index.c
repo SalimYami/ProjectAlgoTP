@@ -33,7 +33,7 @@ int main()
  {
     int tailleD ,tailleG  ;
     int T[1000] ;
-    int n=10 ;
+    int n=10;
     printf("entre la taille de l indice gauche \n") ;
     scanf("%d",&tailleG) ;
     printf("entre la taille de l indice droite \n") ;
