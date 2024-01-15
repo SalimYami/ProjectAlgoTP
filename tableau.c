@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "raymath.h"
 #include <stdio.h>
 
 /*void AfficherCaseTab(int *T,int sizec,int sizetext,int poscx,int poscy,int screenWidth,int screenHeight,char *text){
@@ -22,10 +23,15 @@ int main(int argc, char* argv[]) {
     int i=5;
     int x=0;
     char text[20];
+    InitWindow(screenWidth, screenHeight, "Hello, Raylib!");
+    Camera2D cam = { 0 }; // initialiser les coordonnees de la camera 
+    cam.zoom = 1;
+    cam.offset.x = GetScreenWidth() / 2.0f;
+    cam.offset.y = GetScreenHeight() / 2.0f;
+    Vector2 prevMousePos = GetMousePosition();
     //int poscx; //position case en x
     //sprintf(text, "%d", number); pour convertir d'un entier a une chaine de caractere
     int sizec,sizetext,poscx,poscy;
-    InitWindow(screenWidth, screenHeight, "Hello, Raylib!");
     int T[10];
     //on fait un tableau 
 for(int j=0 ; j<10 ; j++){
@@ -41,11 +47,31 @@ for(int j=0 ; j<10 ; j++){
 
     // Main game loop
     while (!WindowShouldClose()) {
+      // Zoom 
+       float mouseDelta = GetMouseWheelMove(); //  recupere la quantite de mouvement de la molette
 
+        float newZoom = cam.zoom + mouseDelta * 0.01f;
+        if (newZoom <= 0)
+            newZoom = 0.01f;
 
+        cam.zoom = newZoom;
+        // deplacement
+        Vector2 thisPos = GetMousePosition(); //  recupere la position actuelle de la souris
+
+        Vector2 delta = Vector2Subtract(prevMousePos, thisPos); // calcule de la difference entre la position initial et position actuelle 
+        prevMousePos = thisPos;
+
+        if (IsMouseButtonDown(0))
+            cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam); //  convertire les coordonnees de l'écran (en pixels) en coordonnees du monde
+       // rotation
+        if (IsKeyPressed(KEY_LEFT)) // rotation a gauche
+            cam.rotation += 10;
+        else if (IsKeyPressed(KEY_RIGHT)) // rotation a droit 
+            cam.rotation -= 10;
         // Draw
         BeginDrawing();
         ClearBackground(BLACK);
+        BeginMode2D(cam) ;
         DrawRectangle(x-50,0,50,50,GRAY);
         DrawRectangle(screenWidth-x-50,0,50,50,GREEN);
    // AfficherCaseTab(T,poscx,poscy,sizec,sizec,screenWidth,screenHeight,text); FONCTION FAIL 
